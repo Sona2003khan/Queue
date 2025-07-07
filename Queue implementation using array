@@ -1,0 +1,82 @@
+public class Queue_implementation_using_array_2 {
+    public int rear;
+    public int front;
+    public int size;
+    public int capacity;
+    public int newArr[];
+
+    public Queue_implementation_using_array_2(int size) {
+        this.rear = -1;
+        this.front = 0;
+        this.capacity = size;
+        this.size = 0;
+        newArr = new int[capacity];
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public boolean isFull() {
+        return size == capacity;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public void enQueue(int value) {
+        if (isFull()) {
+            System.out.println("Queue is Full");
+            return;
+        }
+        rear++;
+        newArr[rear] = value;
+        size++;
+    }
+
+    public void deQueue() {
+        if (isEmpty()) {
+            System.out.println("Queue is Empty");
+            return;
+        }
+        front++;
+        size--;
+    }
+
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Queue is Empty");
+            return;
+        }
+        System.out.print("Queue: ");
+        for (int i = front; i <= rear; i++) {
+            System.out.print(newArr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Queue_implementation_using_array_2 qu = new Queue_implementation_using_array_2(5);
+
+        qu.enQueue(5);
+        qu.enQueue(3);
+        qu.enQueue(9);
+        qu.enQueue(7);
+        qu.enQueue(1);
+
+        qu.display();                     // Queue: 5 3 9 7 1
+        System.out.println(qu.isFull()); // true
+
+        qu.deQueue();                    // removes 5
+        qu.display();                    // Queue: 3 9 7 1
+
+        System.out.println(qu.isEmpty()); // false
+        System.out.println(qu.size());    // 4
+        System.out.println(qu.isFull());  // false
+    }
+}
+
+
+/*enQueue(), deQueue(), isFull(), isEmpty(), and size() all run in O(1) time.
+display() runs in O(n) time where n is the number of elements in the queue.*/
