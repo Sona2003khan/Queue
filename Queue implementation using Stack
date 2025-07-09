@@ -1,0 +1,92 @@
+import java.util.*;
+
+public class queue_implementation_using_stack {
+    int capacity;
+    Stack<Integer> input;
+    Stack<Integer> output;
+
+    public queue_implementation_using_stack(int size) {
+        this.capacity = size;
+        this.input = new Stack<>();
+        this.output = new Stack<>();
+    }
+
+    public boolean isEmpty() {
+        return input.isEmpty() && output.isEmpty();
+    }
+
+    public void enqueue(int val) {
+        if (input.size() + output.size() == capacity) {
+            System.out.println("Queue is full");
+            return;
+        }
+        input.push(val);
+    }
+
+    public int dequeue() {
+        if (isEmpty()) {
+            System.out.println("Queue is already empty");
+            return -1;
+        }
+
+        if (output.isEmpty()) {
+            while (!input.isEmpty()) {
+                output.push(input.pop());
+            }
+        }
+        return output.pop();
+    }
+
+    public int front() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty");
+            return -1;
+        }
+
+        if (output.isEmpty()) {
+            while (!input.isEmpty()) {
+                output.push(input.pop());
+            }
+        }
+        return output.peek();
+    }
+
+    public void display() {
+        Stack<Integer> temp = new Stack<>();
+
+        // Step 1: Print elements from output (front of queue)
+        while (!output.isEmpty()) {
+            temp.push(output.pop());
+        }
+
+        while (!temp.isEmpty()) {
+            int val = temp.pop();
+            System.out.print(val + " ");
+            output.push(val);  // Restore original state
+        }
+
+        // Step 2: Print elements from input (back of queue)
+        for (int i = 0; i < input.size(); i++) {
+            System.out.print(input.get(i) + " ");
+        }
+
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        queue_implementation_using_stack qu = new queue_implementation_using_stack(5);
+        qu.enqueue(9);
+        qu.enqueue(3);
+        qu.enqueue(2);
+        qu.enqueue(7);
+        qu.enqueue(1);
+
+        qu.dequeue(); // removes 9
+
+        System.out.print("Queue after dequeue: ");
+        qu.display(); // prints 3 2 7 1
+    }
+}
+
+/*Enqueue: O(1) – Each push to input stack is constant time.
+Dequeue / Front: Amortized O(1), worst-case O(n) when transferring elements from input to output.*/
