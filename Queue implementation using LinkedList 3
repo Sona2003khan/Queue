@@ -1,0 +1,82 @@
+public class queue_implementation_using_LinkedList {
+    int val;
+    queue_implementation_using_LinkedList node;
+
+    static queue_implementation_using_LinkedList head = null;
+    static queue_implementation_using_LinkedList tail = null;
+    static int count = 0; // tracks size
+
+    public queue_implementation_using_LinkedList(int val) {
+        this.val = val;
+        this.node = null;
+    }
+
+    // Time: O(1), Space: O(1)
+    public void enqueue(int val) {
+        queue_implementation_using_LinkedList newNode = new queue_implementation_using_LinkedList(val);
+        if (head == null || tail == null) {
+            head = tail = newNode;
+        } else {
+            tail.node = newNode;
+            tail = newNode;
+        }
+        count++; // increment size
+    }
+
+    // Time: O(1), Space: O(1)
+    public int dequeue() {
+        if (head == null) {
+            return -1;
+        }
+        int val = head.val;
+        head = head.node;
+        if (head == null) tail = null; // optional safety
+        count--; // decrement size
+        return val;
+    }
+
+    // Time: O(1), Space: O(1)
+    public int peek() {
+        if (head == null) return -1;
+        return head.val;
+    }
+
+    // Time: O(1), Space: O(1)
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    // Time: O(n), Space: O(1)
+    public void display() {
+        queue_implementation_using_LinkedList temp = head;
+        while (temp != null) {
+            System.out.print(temp.val + " ");
+            temp = temp.node;
+        }
+        System.out.println();
+    }
+
+    // Time: O(1), Space: O(1)
+    public int size() {
+        return count;
+    }
+
+    public static void main(String[] args) {
+        queue_implementation_using_LinkedList qu = new queue_implementation_using_LinkedList(-1);
+
+        qu.enqueue(3);
+        qu.enqueue(7);
+        qu.enqueue(1);
+        qu.enqueue(9);
+        qu.enqueue(5);
+
+        qu.display();           // Output: 3 7 1 9 5
+        System.out.println(qu.peek());      // Output: 3
+        System.out.println(qu.isEmpty());   // Output: false
+        System.out.println("Size: " + qu.size());  // Output: 5
+
+        qu.dequeue();           // Removes 3
+        qu.display();           // Output: 7 1 9 5
+        System.out.println("Size: " + qu.size());  // Output: 4
+    }
+}
